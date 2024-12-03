@@ -7,14 +7,21 @@ namespace StringAPI.Controllers
     public class StringCheckerController : ControllerBase
     {
         [HttpPost("Check-Alphabets")]
-        public IActionResult CheckAlphabets([FromBody] String input)
+        public int CheckAlphabets([FromBody] String input)
         {
             if (input == null || string.IsNullOrEmpty(input))
-                return BadRequest("Input string cannot be null or empty.");
+                return StatusCodes.Status400BadRequest;
 
             bool result = CheckAllAlphabets(input);
+            if(result) 
+            {
+                return StatusCodes.Status200OK; 
+            }
+            else
+            {
+                return StatusCodes.Status400BadRequest;
+            }
 
-            return Ok(new { ContainsAllLetters = result });
         }
 
         private bool CheckAllAlphabets(string input)
